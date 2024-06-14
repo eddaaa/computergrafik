@@ -21,7 +21,8 @@ function main() {
         nearPlane,
         farPlane
     );
-    camera.position.set(0, 8, 30);
+    // camera.position.set(0, 8, 30);
+    camera.position.set(10, -10, -37);
 
     // create the scene
     const scene = new THREE.Scene();
@@ -72,7 +73,9 @@ function main() {
     planeTextureMap.repeat.set(16, 16);
 
     // MESHES
-    const plane = new THREE.Mesh(planeGeometry, planeTextureMap);
+    const planeMaterial = new THREE.MeshBasicMaterial({ map: planeTextureMap });
+    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    // const plane = new THREE.Mesh(planeGeometry, planeTextureMap);
     plane.rotation.x = Math.PI / 2;
     scene.add(plane);
 
@@ -113,6 +116,7 @@ function main() {
             const canvas = gl.domElement;
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
             camera.updateProjectionMatrix();
+            console.log(camera.position)
         }
 
         trackballControls.update(clock.getDelta());
