@@ -1414,7 +1414,7 @@
         RectangleWidget.prototype.title = "Rectangle";
         RectangleWidget.prototype.cssSuffix = "rectangle";
         RectangleWidget.prototype.button = function() {
-            return "<img src='" + this.opts.imageURLPrefix + "/rectangle.png'>";
+            return "<img example='" + this.opts.imageURLPrefix + "/rectangle.png'>";
         };
         RectangleWidget.prototype.makeTool = function() {
             return new LC.RectangleTool();
@@ -1429,7 +1429,7 @@
         LineWidget.prototype.title = "Line";
         LineWidget.prototype.cssSuffix = "line";
         LineWidget.prototype.button = function() {
-            return "<img src='" + this.opts.imageURLPrefix + "/line.png'>";
+            return "<img example='" + this.opts.imageURLPrefix + "/line.png'>";
         };
         LineWidget.prototype.makeTool = function() {
             return new LC.LineTool();
@@ -1444,7 +1444,7 @@
         PencilWidget.prototype.title = "Pencil";
         PencilWidget.prototype.cssSuffix = "pencil";
         PencilWidget.prototype.button = function() {
-            return "<img src='" + this.opts.imageURLPrefix + "/pencil.png'>";
+            return "<img example='" + this.opts.imageURLPrefix + "/pencil.png'>";
         };
         PencilWidget.prototype.makeTool = function() {
             return new LC.Pencil();
@@ -1459,7 +1459,7 @@
         EraserWidget.prototype.title = "Eraser";
         EraserWidget.prototype.cssSuffix = "eraser";
         EraserWidget.prototype.button = function() {
-            return "<img src='" + this.opts.imageURLPrefix + "/eraser.png'>";
+            return "<img example='" + this.opts.imageURLPrefix + "/eraser.png'>";
         };
         EraserWidget.prototype.makeTool = function() {
             return new LC.Eraser();
@@ -1474,7 +1474,7 @@
         PanWidget.prototype.title = "Pan";
         PanWidget.prototype.cssSuffix = "pan";
         PanWidget.prototype.button = function() {
-            return "<img src='" + this.opts.imageURLPrefix + "/pan.png'>";
+            return "<img example='" + this.opts.imageURLPrefix + "/pan.png'>";
         };
         PanWidget.prototype.makeTool = function() {
             return new LC.Pan();
@@ -1489,7 +1489,7 @@
         EyeDropperWidget.prototype.title = "Eyedropper";
         EyeDropperWidget.prototype.cssSuffix = "eye-dropper";
         EyeDropperWidget.prototype.button = function() {
-            return "<img src='" + this.opts.imageURLPrefix + "/eyedropper.png'>";
+            return "<img example='" + this.opts.imageURLPrefix + "/eyedropper.png'>";
         };
         EyeDropperWidget.prototype.makeTool = function() {
             return new LC.EyeDropper();

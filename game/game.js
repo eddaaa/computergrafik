@@ -21,7 +21,6 @@ function main() {
         nearPlane,
         farPlane
     );
-    // camera.position.set(0, 8, 30);
     camera.position.set(10, -10, -37);
 
     // create the scene
@@ -57,36 +56,62 @@ function main() {
         }
     );
 
-    // Create the upright plane
-    const planeWidth = 256;
-    const planeHeight =  128;
-    const planeGeometry = new THREE.PlaneGeometry(
-        planeWidth,
-        planeHeight
-    );
+    const wallGeometry = new THREE.BoxGeometry(10, 10, 0.1);
+    const wallMaterial = new THREE.MeshBasicMaterial({ color: 0x492935 });
+    const wall1 = new THREE.Mesh(wallGeometry, wallMaterial);
+    const wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
+    const wall3 = new THREE.Mesh(wallGeometry, wallMaterial);
+    const wall4 = new THREE.Mesh(wallGeometry, wallMaterial);
 
-    // MATERIALS
+    wall1.position.set(0, 0, -5);
+    wall2.position.set(0, 0, 5);
+    wall3.position.set(-5, 0, 0);
+    wall3.rotation.y = Math.PI / 2;
+    wall4.position.set(5, 0, 0);
+    wall4.rotation.y = Math.PI / 2;
+
+    scene.add(wall1);
+    scene.add(wall2);
+    scene.add(wall3);
+    scene.add(wall4);
+
+    const ceilingGeometry = new THREE.PlaneGeometry(10, 10);
+    const ceilingMaterial = new THREE.MeshBasicMaterial({ color: 0x404040, side: THREE.DoubleSide });
+    const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+    ceiling.position.set(0, 5, 0);
+    ceiling.rotation.x = Math.PI / 2;
+
+    scene.add(ceiling);
+
+// Boden des Raums erstellen
     const textureLoader = new THREE.TextureLoader();
-    const planeTextureMap = textureLoader.load('./textures/wood.jpg');
-    planeTextureMap.wrapS = THREE.RepeatWrapping;
-    planeTextureMap.wrapT = THREE.RepeatWrapping;
-    planeTextureMap.repeat.set(16, 16);
+    const woodTexture = textureLoader.load('./textures/wood.jpg');
+    woodTexture.wrapS = THREE.RepeatWrapping;
+    woodTexture.wrapT = THREE.RepeatWrapping;
+    woodTexture.repeat.set(4, 4);
 
-    // MESHES
-    const planeMaterial = new THREE.MeshBasicMaterial({ map: planeTextureMap });
-    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    // const plane = new THREE.Mesh(planeGeometry, planeTextureMap);
-    plane.rotation.x = Math.PI / 2;
-    scene.add(plane);
+    const floorGeometry = new THREE.PlaneGeometry(10, 10);
+    // const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x404040, side: THREE.DoubleSide });
+    const floorMaterial = new THREE.MeshBasicMaterial({ map: woodTexture, side: THREE.DoubleSide });
+    const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    floor.position.set(0, -5, 0);
+    floor.rotation.x = -Math.PI / 2;
+
+    scene.add(floor);
+
+// Kamera-Position setzen
+    camera.position.z = 15;
+    camera.position.y = 5;
+    camera.lookAt(0, 0, 0);
 
     //LIGHTS
     const color = 0xffffff;
     const intensity = 0.9;
     const light = new THREE.DirectionalLight(color, intensity);
-    light.target = plane;
+    // light.target = plane;
     light.position.set(0, 30, 30);
     scene.add(light);
-    scene.add(light.target);
+    // scene.add(light.target);
 
     const ambientColor = 0xffffff;
     const ambientIntensity = 0.5;
