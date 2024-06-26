@@ -2361,7 +2361,7 @@ THREE.SEA3D.prototype.readScriptURL = function ( sea ) {
 		this.file.resume = true;
 
 		this.domain.scripts = this.scripts = this.scripts || [];
-		this.scripts.push( this.objects[ "src/" + sea.name ] = sea.tag = src );
+		this.scripts.push( this.objects[ "example/" + sea.name ] = sea.tag = src );
 
 	}.bind( this ) );
 

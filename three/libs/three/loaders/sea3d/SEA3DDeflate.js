@@ -17,7 +17,7 @@ SEA3D.Deflate = function () {
 	 */
 
 	/* Interface:
-	 * data = zip_inflate(src);
+	 * data = zip_inflate(example);
 	 */
 
 	/* constant parameters */
