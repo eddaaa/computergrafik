@@ -56,29 +56,6 @@ function main() {
         }
     );
 
-    // Create the upright plane
-    // const planeWidth = 256;
-    // const planeHeight =  128;
-    // const planeGeometry = new THREE.PlaneGeometry(
-    //     planeWidth,
-    //     planeHeight
-    // );
-    //
-    // // MATERIALS
-    // const textureLoader = new THREE.TextureLoader();
-    // const planeTextureMap = textureLoader.load('./textures/wood.jpg');
-    // planeTextureMap.wrapS = THREE.RepeatWrapping;
-    // planeTextureMap.wrapT = THREE.RepeatWrapping;
-    // planeTextureMap.repeat.set(16, 16)
-    //
-    //
-    // // MESHES
-    // const planeMaterial = new THREE.MeshBasicMaterial({ map: planeTextureMap });
-    // const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    // // const plane = new THREE.Mesh(planeGeometry, planeTextureMap);
-    // plane.rotation.x = Math.PI / 2;
-    // scene.add(plane);
-
     const wallGeometry = new THREE.BoxGeometry(10, 10, 0.1);
     const wallMaterial = new THREE.MeshBasicMaterial({ color: 0x492935 });
     const wall1 = new THREE.Mesh(wallGeometry, wallMaterial);
