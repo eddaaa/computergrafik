@@ -31,6 +31,8 @@ function main() {
 
     // GEOMETRY
     var loader = new THREE.OBJLoader();
+    const textureLoader = new THREE.TextureLoader();
+
 
     loader.load("./objects/FolderMail.obj",
         function(mesh) {
@@ -56,8 +58,13 @@ function main() {
         }
     );
 
+    const concrete = textureLoader.load('./textures/concrete.jpg');
+    concrete.wrapS = THREE.RepeatWrapping;
+    concrete.wrapT = THREE.RepeatWrapping;
+    concrete.repeat.set(4, 4);
+
     const wallGeometry = new THREE.BoxGeometry(10, 10, 0.1);
-    const wallMaterial = new THREE.MeshBasicMaterial({ color: 0x492935 });
+    const wallMaterial = new THREE.MeshBasicMaterial({ map: concrete, side: THREE.DoubleSide });
     const wall1 = new THREE.Mesh(wallGeometry, wallMaterial);
     const wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
     const wall3 = new THREE.Mesh(wallGeometry, wallMaterial);
@@ -84,7 +91,6 @@ function main() {
     scene.add(ceiling);
 
 // Boden des Raums erstellen
-    const textureLoader = new THREE.TextureLoader();
     const woodTexture = textureLoader.load('./textures/wood.jpg');
     woodTexture.wrapS = THREE.RepeatWrapping;
     woodTexture.wrapT = THREE.RepeatWrapping;
@@ -114,7 +120,7 @@ function main() {
     // scene.add(light.target);
 
     const ambientColor = 0xffffff;
-    const ambientIntensity = 0.5;
+    const ambientIntensity = 0.4;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
 
