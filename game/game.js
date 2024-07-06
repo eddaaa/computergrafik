@@ -13,7 +13,9 @@ function main() {
     const nearPlane = 0.1;
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
-    camera.position.set(10, -10, -37);
+    camera.position.set(0, 3, 0);
+    camera.lookAt(new THREE.Vector3(1, 1, 1));
+
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0.5, 0.5, 0.5);
@@ -39,6 +41,23 @@ function main() {
 
     const trackballControls = initTrackballControls(camera, gl);
     const clock = new THREE.Clock();
+
+    document.addEventListener('keydown', function(event) {
+        switch (event.keyCode) {
+            case 87: // W
+                camera.position.z -= 0.1;
+                break;
+            case 65: // A
+                camera.position.x -= 0.1;
+                break;
+            case 83: // S
+                camera.position.z += 0.1;
+                break;
+            case 68: // D
+                camera.position.x += 0.1;
+                break;
+        }
+    });
 
     function draw(time){
         time *= 0.001;
