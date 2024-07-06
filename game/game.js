@@ -13,8 +13,7 @@ function main() {
     const nearPlane = 0.1;
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
-    camera.position.set(0, 3, 0);
-    camera.lookAt(new THREE.Vector3(1, 1, 1));
+    camera.position.set(0.75, 1, 0.5);
 
 
     const scene = new THREE.Scene();
@@ -23,21 +22,21 @@ function main() {
     initRoom(scene);
     loadFurniture(scene);
 
-    const color = 0xffffff;
-    const intensity = 0.7;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(0, 30, 30);
-    scene.add(light);
+    // const color = 0xffffff;
+    // const intensity = 0.4;
+    // const light = new THREE.DirectionalLight(color, intensity);
+    // light.position.set(0, 30, 30);
+    // scene.add(light);
 
     const ambientColor = 0xffffff;
-    const ambientIntensity = 0.4;
+    const ambientIntensity = 0.2;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
 
-    const spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(-10, 20, -5);
-    spotLight.castShadow = true;
-    scene.add(spotLight);
+    // const spotLight = new THREE.SpotLight(0xffffff);
+    // spotLight.position.set(-10, 20, -5);
+    // spotLight.castShadow = true;
+    // scene.add(spotLight);
 
     const trackballControls = initTrackballControls(camera, gl);
     const clock = new THREE.Clock();
