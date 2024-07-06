@@ -1,3 +1,8 @@
+
+// source for controls and collision detection:
+// https://gist.github.com/ShaneBrumback/e4c328823b48c0ce7c06c3c8eed872f8#file-threejs-examples-first-person-shooter-game-starter-html
+
+
 import { initRoom } from './room.js';
 import { loadFurniture } from './furniture.js';
 import { initStats, initTrackballControls } from './utils.js';
@@ -13,8 +18,9 @@ function main() {
     const nearPlane = 0.1;
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
+    
     camera.position.set(0.75, 1, 0.5);
-
+    camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0.5, 0.5, 0.5);
@@ -38,26 +44,119 @@ function main() {
     // spotLight.castShadow = true;
     // scene.add(spotLight);
 
-    const trackballControls = initTrackballControls(camera, gl);
     const clock = new THREE.Clock();
+    
+    const controls = initTrackballControls(camera, gl.domElement);
+    controls.noRotate = false;
 
-    document.addEventListener('keydown', function(event) {
+    var moveForward = false;
+    var moveBackward = false;
+    var moveLeft = false;
+    var moveRight = false;
+
+    var onKeyDown = function (event) {
         switch (event.keyCode) {
-            case 87: // W
-                camera.position.z -= 0.1;
+            case 38: // up arrow
+            case 87: // W key
+                moveForward = true;
                 break;
-            case 65: // A
-                camera.position.x -= 0.1;
+            case 37: // left arrow
+            case 65: // A key
+                moveLeft = true;
                 break;
-            case 83: // S
-                camera.position.z += 0.1;
+            case 40: // down arrow
+            case 83: // S key
+                moveBackward = true;
                 break;
-            case 68: // D
-                camera.position.x += 0.1;
+            case 39: // right arrow
+            case 68: // D key
+                moveRight = true;
                 break;
         }
-    });
+    };
 
+    var onKeyUp = function (event) {
+        switch (event.keyCode) {
+            case 38: // up arrow
+            case 87: // W key
+                moveForward = false;
+                break;
+            case 37: // left arrow
+            case 65: // A key
+                moveLeft = false;
+                break;
+            case 40: // down arrow
+            case 83: // S key
+                moveBackward = false;
+                break;
+            case 39: // right arrow
+            case 68: // D key
+                moveRight = false;
+                break;
+        }
+    };
+    
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup', onKeyUp);
+
+    // collision detection
+    function checkCollision(position) {
+        var gridSize = 20;
+        var halfGridSize = gridSize / 2;
+        var margin = 0.1;
+
+        if (
+            position.x < -halfGridSize + margin ||
+            position.x > halfGridSize - margin ||
+            position.z < -halfGridSize + margin ||
+            position.z > halfGridSize - margin
+        ) {
+            return true; // collision detected
+        }
+
+        return false; // no collision
+    }
+    
+    // control player and camera movement
+    function moveCamera() {
+        var delta = clock.getDelta(); // Berechnung der verstrichenen Zeit seit dem letzten Frame
+        var moveDistance = 5 * delta; // 5 Einheiten pro Sekunde
+    
+        var direction = new THREE.Vector3();
+        camera.getWorldDirection(direction);
+        direction.y = 0; // Bewegung nur parallel zum Boden
+        direction.normalize();
+    
+        if (moveForward) {
+            camera.position.add(direction.clone().multiplyScalar(moveDistance));
+            if (checkCollision(camera.position)) {
+                camera.position.sub(direction.clone().multiplyScalar(moveDistance)); // Zurück zur vorherigen Position bewegen
+            }
+        }
+    
+        if (moveBackward) {
+            camera.position.sub(direction.clone().multiplyScalar(moveDistance));
+            if (checkCollision(camera.position)) {
+                camera.position.add(direction.clone().multiplyScalar(moveDistance)); // Zurück zur vorherigen Position bewegen
+            }
+        }
+    
+        if (moveLeft) {
+            camera.position.add(new THREE.Vector3(-direction.z, 0, direction.x).multiplyScalar(moveDistance));
+            if (checkCollision(camera.position)) {
+                camera.position.sub(new THREE.Vector3(-direction.z, 0, direction.x).multiplyScalar(moveDistance)); // Zurück zur vorherigen Position bewegen
+            }
+        }
+    
+        if (moveRight) {
+            camera.position.add(new THREE.Vector3(direction.z, 0, -direction.x).multiplyScalar(moveDistance));
+            if (checkCollision(camera.position)) {
+                camera.position.sub(new THREE.Vector3(direction.z, 0, -direction.x).multiplyScalar(moveDistance)); // Zurück zur vorherigen Position bewegen
+            }
+        }
+    }
+    
+    // Render-Schleife
     function draw(time){
         time *= 0.001;
         if (resizeGLToDisplaySize(gl)) {
@@ -66,15 +165,16 @@ function main() {
             camera.updateProjectionMatrix();
         }
 
-        trackballControls.update(clock.getDelta());
-        stats.update();
+        moveCamera(); // Aufruf der Kamerabewegungsfunktion
+        controls.update(); // TrackballControls aktualisieren
 
+        stats.update();
         gl.render(scene, camera);
         requestAnimationFrame(draw);
     }
 
     requestAnimationFrame(draw);
-}
+}   
 
 function resizeGLToDisplaySize(gl) {
     const canvas = gl.domElement;
