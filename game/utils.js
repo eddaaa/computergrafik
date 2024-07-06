@@ -6,9 +6,8 @@ export function initStats() {
 }
 
 export function initTrackballControls(camera, renderer) {
-    var controls;
-    controls = new THREE.OrbitControls(camera, document.body);
-    controls.target.set(0, 20, 0);
+    var controls = new THREE.OrbitControls(camera, document.body);
+    // controls.target.set(0, 0.5, 0);
     controls.update();
     return controls;
 }
