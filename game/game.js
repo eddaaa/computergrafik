@@ -6,6 +6,11 @@
 import { initRoom } from './room.js';
 import { loadFurniture } from './furniture.js';
 import { initStats, initTrackballControls } from './utils.js';
+import { PointerLockControls } from './PointerLockControls.js';
+
+let prevTime = performance.now();
+const velocity = new THREE.Vector3();
+const direction = new THREE.Vector3();
 
 function main() {
     const canvas = document.querySelector("#c");
@@ -21,6 +26,8 @@ function main() {
     
     camera.position.set(0.75, 1, 0.5);
     camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
+
+    var controls = new PointerLockControls( camera, document.body );
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0.5, 0.5, 0.5);
@@ -46,8 +53,32 @@ function main() {
 
     const clock = new THREE.Clock();
     
-    const controls = initTrackballControls(camera, gl.domElement);
-    controls.noRotate = false;
+    // const controls = initTrackballControls(camera, gl.domElement);
+    // controls.noRotate = false;
+
+    const blocker = document.getElementById( 'blocker' );
+    const instructions = document.getElementById( 'instructions' );
+
+    instructions.addEventListener( 'click', function () {
+
+        controls.lock();
+
+    } );
+
+    controls.addEventListener( 'lock', function () {
+
+        instructions.style.display = 'none';
+        blocker.style.display = 'none';
+
+    } );
+
+    controls.addEventListener( 'unlock', function () {
+
+        blocker.style.display = 'block';
+        instructions.style.display = '';
+
+    } );
+
 
     var moveForward = false;
     var moveBackward = false;
@@ -99,6 +130,8 @@ function main() {
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keyup', onKeyUp);
 
+    // ?? var raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+
     // collision detection
     function checkCollision(position) {
         var gridSize = 20;
@@ -118,7 +151,7 @@ function main() {
     }
     
     // control player and camera movement
-    function moveCamera() {
+    function move() {
         var delta = clock.getDelta(); // Berechnung der verstrichenen Zeit seit dem letzten Frame
         var moveDistance = 5 * delta; // 5 Einheiten pro Sekunde
     
@@ -128,16 +161,15 @@ function main() {
         direction.normalize();
     
         if (moveForward) {
-            camera.position.add(direction.clone().multiplyScalar(moveDistance));
+            controls.moveForward();
             if (checkCollision(camera.position)) {
-                camera.position.sub(direction.clone().multiplyScalar(moveDistance)); // Zurück zur vorherigen Position bewegen
-            }
+                controls.moveBackward();            }
         }
     
         if (moveBackward) {
-            camera.position.sub(direction.clone().multiplyScalar(moveDistance));
+            controls.moveBackward();
             if (checkCollision(camera.position)) {
-                camera.position.add(direction.clone().multiplyScalar(moveDistance)); // Zurück zur vorherigen Position bewegen
+                controls.moveForward();// Zurück zur vorherigen Position bewegen
             }
         }
     
@@ -165,10 +197,25 @@ function main() {
             camera.updateProjectionMatrix();
         }
 
-        moveCamera(); // Aufruf der Kamerabewegungsfunktion
-        controls.update(); // TrackballControls aktualisieren
+        const delta = ( time - prevTime ) / 1000;
+
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+
+        velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+        direction.z = Number( moveForward ) - Number( moveBackward );
+        direction.x = Number( moveRight ) - Number( moveLeft );
+        direction.normalize(); // this ensures consistent movements in all directions
+
+        if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
+        if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
+
+        // move();
+        // controls.update(); // TrackballControls aktualisieren
 
         stats.update();
+        prevTime = time;
         gl.render(scene, camera);
         requestAnimationFrame(draw);
     }
