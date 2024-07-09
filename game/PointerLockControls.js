@@ -1,6 +1,7 @@
 
 // source:
-// https://threejs.org/examples/misc_controls_pointerlock.html
+// https://github.com/mrdoob/three.js/blob/master/examples/jsm/controls/PointerLockControls.js
+
 
 const _euler = new THREE.Euler( 0, 0, 0, 'YXZ' );
 const _vector = new THREE.Vector3();
@@ -65,6 +66,14 @@ class PointerLockControls extends THREE.EventDispatcher {
 
 	}
 
+
+ 	getPosition() {
+		
+		console.log("pos: ", this.camera.position)
+		return this.camera.position;
+
+	}
+
 	getDirection( v ) {
 
 		return v.set( 0, 0, - 1 ).applyQuaternion( this.camera.quaternion );
@@ -113,7 +122,7 @@ class PointerLockControls extends THREE.EventDispatcher {
 // event listeners
 
 function onMouseMove( event ) {
-
+	if ( this.isLocked === false ) console.log("is not locked");
 	if ( this.isLocked === false ) return;
 
 	const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
