@@ -72,7 +72,6 @@ class PointerLockControls extends THREE.EventDispatcher {
 
  	getPosition() {
 		
-		console.log("pos: ", this.camera.position)
 		return this.camera.position.clone();
 
 	}

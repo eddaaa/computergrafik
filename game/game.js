@@ -44,18 +44,26 @@ function main() {
     loadFurniture(scene);
 
     const ambientColor = 0xffffff;
-    const ambientIntensity = 0.2;
+    const ambientIntensity = 0.1;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
 
     // directional light - parallel sun rays
     const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
     directionalLight.castShadow = true;
-    directionalLight.position.set(0, 32, 64);
-    scene.add(directionalLight);
+    directionalLight.position.set(0, 60, 60);
+    // scene.add(directionalLight);
+
+    const color = 0xffffff;
+    const intensity = 1.5;
+    const distance = 0;
+    const light = new THREE.PointLight(color, intensity, distance);
+    light.castShadow = true;
+    light.position.set(-2.5, -2, 0.4,);
+    scene.add(light);
 
     // const spotLight = new THREE.SpotLight(0xffffff);
-    // spotLight.position.set(-10, 20, -5);
+    // spotLight.position.set(-2.5, -2, 0.4);
     // spotLight.castShadow = true;
     // scene.add(spotLight);
     
