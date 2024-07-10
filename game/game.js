@@ -1,10 +1,27 @@
+
+// source for controls and collision detection:
+// https://gist.github.com/ShaneBrumback/e4c328823b48c0ce7c06c3c8eed872f8#file-threejs-examples-first-person-shooter-game-starter-html
+
+
 import { initRoom } from './room.js';
 import { loadFurniture } from './furniture.js';
-import { initStats, initTrackballControls } from './utils.js';
+import { initStats } from './utils.js';
+import { PointerLockControls } from './PointerLockControls.js';
+
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+
+let prevTime = performance.now();
+const velocity = new THREE.Vector3();
+const direction = new THREE.Vector3();
+
+const _vector = new THREE.Vector3();
 
 function main() {
     const canvas = document.querySelector("#c");
-    const gl = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 
     const stats = initStats();
 
@@ -13,8 +30,11 @@ function main() {
     const nearPlane = 0.1;
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
+    
     camera.position.set(0.75, 1, 0.5);
+    camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
 
+    var controls = new PointerLockControls( camera, document.body );
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0.5, 0.5, 0.5);
@@ -37,52 +57,175 @@ function main() {
     // spotLight.position.set(-10, 20, -5);
     // spotLight.castShadow = true;
     // scene.add(spotLight);
+    
+    // const controls = initTrackballControls(camera, renderer.domElement);
+    // controls.noRotate = false;
 
-    const trackballControls = initTrackballControls(camera, gl);
-    const clock = new THREE.Clock();
+    const blocker = document.getElementById( 'blocker' );
+    const instructions = document.getElementById( 'instructions' );
 
-    document.addEventListener('keydown', function(event) {
-        switch (event.keyCode) {
-            case 87: // W
-                camera.position.z -= 0.1;
+    instructions.addEventListener( 'click', function () {
+
+        controls.lock();
+
+    } );
+
+    controls.addEventListener( 'lock', function () {
+
+        instructions.style.display = 'none';
+        blocker.style.display = 'none';
+
+    } );
+
+    controls.addEventListener( 'unlock', function () {
+
+        blocker.style.display = 'block';
+        instructions.style.display = '';
+
+    } );
+
+    scene.add( controls.getObject() );
+
+    const onKeyDown = function ( event ) {
+
+        switch ( event.code ) {
+
+            case 'ArrowUp':
+            case 'KeyW':
+                moveForward = true;
                 break;
-            case 65: // A
-                camera.position.x -= 0.1;
+
+            case 'ArrowLeft':
+            case 'KeyA':
+                moveLeft = true;
                 break;
-            case 83: // S
-                camera.position.z += 0.1;
+
+            case 'ArrowDown':
+            case 'KeyS':
+                moveBackward = true;
                 break;
-            case 68: // D
-                camera.position.x += 0.1;
+
+            case 'ArrowRight':
+            case 'KeyD':
+                moveRight = true;
                 break;
         }
-    });
+    };
 
+    const onKeyUp = function ( event ) {
+
+        switch ( event.code ) {
+
+            case 'ArrowUp':
+            case 'KeyW':
+                moveForward = false;
+                break;
+
+            case 'ArrowLeft':
+            case 'KeyA':
+                moveLeft = false;
+                break;
+
+            case 'ArrowDown':
+            case 'KeyS':
+                moveBackward = false;
+                break;
+
+            case 'ArrowRight':
+            case 'KeyD':
+                moveRight = false;
+                break;
+        }
+    };
+    
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup', onKeyUp);
+
+    // TODO: Raycaster needs to be added for collision detection with objects
+
+    // var raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+
+    // collision detection
+    function checkCollision(position) {
+        console.log("called position: ", position);
+        var gridSize = 10; // needs to be updated if the room size changes
+        var halfGridSize = gridSize / 2;
+        var margin = 0.1;
+
+        if (
+            position.x < -halfGridSize + margin ||
+            position.x > halfGridSize - margin ||
+            position.z < -halfGridSize + margin ||
+            position.z > halfGridSize - margin
+        ) {
+            return true; // collision detected
+        }
+
+        return false; // no collision
+    }
+    
+    // Render-Schleife
     function draw(time){
-        time *= 0.001;
-        if (resizeGLToDisplaySize(gl)) {
-            const canvas = gl.domElement;
+        
+        if (resizeGLToDisplaySize(renderer)) {
+            const canvas = renderer.domElement;
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
             camera.updateProjectionMatrix();
         }
 
-        trackballControls.update(clock.getDelta());
-        stats.update();
+        time *= 0.001;
+        const delta = ( time - prevTime ) / 1000;
 
-        gl.render(scene, camera);
+        // raycaster.ray.origin.copy( controls.getObject().position );
+        // raycaster.ray.origin.y -= 10;
+        // const intersections = raycaster.intersectObjects( objects, false );
+        // const onObject = intersections.length > 0;
+
+        velocity.x -= velocity.x * 1000.0 * delta;
+        velocity.z -= velocity.z * 1000.0 * delta;
+
+        direction.z = Number( moveForward ) - Number( moveBackward );
+        direction.x = Number( moveRight ) - Number( moveLeft );
+        direction.normalize(); // this ensures consistent movements in all directions
+
+        if ( moveForward || moveBackward ) {
+
+            velocity.z -= direction.z * 20000000.0 * delta;
+            const distance = - velocity.z * delta;
+            controls.moveForward(distance);
+
+            if (checkCollision(controls.getPosition())) {
+                controls.moveForward(-distance)
+            }    
+        }
+
+        if ( moveLeft || moveRight ) {
+
+            velocity.x -= direction.x * 20000000.0 * delta;
+            const distance = - velocity.x * delta;
+            controls.moveRight(distance);
+
+            if (checkCollision(controls.getPosition())) {
+                controls.moveRight(-distance)
+            }  
+        }   
+
+        stats.update();
+        prevTime = time;
+        renderer.render(scene, camera);
         requestAnimationFrame(draw);
     }
 
     requestAnimationFrame(draw);
 }
 
-function resizeGLToDisplaySize(gl) {
-    const canvas = gl.domElement;
+function resizeGLToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
-        gl.setSize(width, height, false);
+        renderer.setSize(width, height, false);
     }
     return needResize;
 }
