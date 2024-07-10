@@ -29,6 +29,7 @@ class PointerLockControls extends THREE.EventDispatcher {
 		this.maxPolarAngle = Math.PI; // radians
 
 		this.pointerSpeed = 1.0;
+		document.body.style.cursor = 'auto';
 
 		this._onMouseMove = onMouseMove.bind( this );
 		this._onPointerlockChange = onPointerlockChange.bind( this );
@@ -43,6 +44,8 @@ class PointerLockControls extends THREE.EventDispatcher {
 		this.domElement.ownerDocument.addEventListener( 'mousemove', this._onMouseMove );
 		this.domElement.ownerDocument.addEventListener( 'pointerlockchange', this._onPointerlockChange );
 		this.domElement.ownerDocument.addEventListener( 'pointerlockerror', this._onPointerlockError );
+
+		document.body.style.cursor = 'auto';
 
 	}
 
@@ -69,8 +72,7 @@ class PointerLockControls extends THREE.EventDispatcher {
 
  	getPosition() {
 		
-		console.log("pos: ", this.camera.position)
-		return this.camera.position;
+		return this.camera.position.clone();
 
 	}
 
@@ -122,7 +124,7 @@ class PointerLockControls extends THREE.EventDispatcher {
 // event listeners
 
 function onMouseMove( event ) {
-	if ( this.isLocked === false ) console.log("is not locked");
+
 	if ( this.isLocked === false ) return;
 
 	const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
