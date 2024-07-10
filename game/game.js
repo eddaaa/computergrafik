@@ -1,6 +1,9 @@
 
-// source for controls and collision detection:
+// source for checkCollision() function:
 // https://gist.github.com/ShaneBrumback/e4c328823b48c0ce7c06c3c8eed872f8#file-threejs-examples-first-person-shooter-game-starter-html
+
+// source for controls implementation:
+// https://threejs.org/examples/misc_controls_pointerlock.html
 
 
 import { initRoom } from './room.js';
@@ -16,8 +19,6 @@ let moveRight = false;
 let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
-
-const _vector = new THREE.Vector3();
 
 function main() {
     const canvas = document.querySelector("#c");
@@ -42,25 +43,22 @@ function main() {
     initRoom(scene);
     loadFurniture(scene);
 
-    // const color = 0xffffff;
-    // const intensity = 0.4;
-    // const light = new THREE.DirectionalLight(color, intensity);
-    // light.position.set(0, 30, 30);
-    // scene.add(light);
-
     const ambientColor = 0xffffff;
     const ambientIntensity = 0.2;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
+
+    // directional light - parallel sun rays
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    directionalLight.castShadow = true;
+    directionalLight.position.set(0, 32, 64);
+    scene.add(directionalLight);
 
     // const spotLight = new THREE.SpotLight(0xffffff);
     // spotLight.position.set(-10, 20, -5);
     // spotLight.castShadow = true;
     // scene.add(spotLight);
     
-    // const controls = initTrackballControls(camera, renderer.domElement);
-    // controls.noRotate = false;
-
     const blocker = document.getElementById( 'blocker' );
     const instructions = document.getElementById( 'instructions' );
 
@@ -70,17 +68,24 @@ function main() {
 
     } );
 
+    document.addEventListener('click', function () {
+
+        if (controls.isLocked) {
+
+            controls.unlock();
+
+        }
+        else {
+
+            controls.lock();
+
+        }
+    });
+
     controls.addEventListener( 'lock', function () {
 
         instructions.style.display = 'none';
         blocker.style.display = 'none';
-
-    } );
-
-    controls.addEventListener( 'unlock', function () {
-
-        blocker.style.display = 'block';
-        instructions.style.display = '';
 
     } );
 
@@ -108,6 +113,12 @@ function main() {
             case 'ArrowRight':
             case 'KeyD':
                 moveRight = true;
+                break;
+
+            case 'Escape':
+            case 'Esc':
+                blocker.style.display = 'block';
+                instructions.style.display = '';
                 break;
         }
     };
@@ -147,7 +158,7 @@ function main() {
 
     // collision detection
     function checkCollision(position) {
-        console.log("called position: ", position);
+
         var gridSize = 10; // needs to be updated if the room size changes
         var halfGridSize = gridSize / 2;
         var margin = 0.1;
