@@ -32,8 +32,12 @@ function main() {
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
     
-    camera.position.set(0.75, 1, 0.5);
+    camera.position.set(0.75, 0, -0.5);
     camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
+
+    const raycaster = new THREE.Raycaster();
+    const sceneMeshes = [];  // Array für alle Meshes in der Szene
+    let intersects = [];  // Array für die Intersektionen
 
     var controls = new PointerLockControls( camera, document.body );
 
@@ -43,24 +47,22 @@ function main() {
     initRoom(scene);
     loadFurniture(scene);
 
+    // Fügen Sie Kollisionsobjekte hinzu, z.B. nach dem Laden eines Modells oder dem Erstellen von Geometrie
+    scene.children.forEach((child) => {
+        if (child instanceof THREE.Mesh) {
+            sceneMeshes.push(child);
+        }
+    });
+
     const ambientColor = 0xffffff;
-    const ambientIntensity = 0.1;
+    const ambientIntensity = 0.01;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
 
-    // directional light - parallel sun rays
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
     directionalLight.castShadow = true;
     directionalLight.position.set(0, 60, 60);
-    // scene.add(directionalLight);
-
-    const color = 0xffffff;
-    const intensity = 1.5;
-    const distance = 0;
-    const light = new THREE.PointLight(color, intensity, distance);
-    light.castShadow = true;
-    light.position.set(-2.5, -2, 0.4,);
-    scene.add(light);
+    scene.add(directionalLight);
 
     // const spotLight = new THREE.SpotLight(0xffffff);
     // spotLight.position.set(-2.5, -2, 0.4);
@@ -157,10 +159,17 @@ function main() {
         }
     };
     
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('keyup', onKeyUp);
+    document.addEventListener('keydown', onKeyDown, false);
+    document.addEventListener('keyup', onKeyUp, false);
 
-    // TODO: Raycaster needs to be added for collision detection with objects
+    function getMovementDirection() {
+        const direction = new THREE.Vector3();
+        if (moveForward) direction.z -= 1;
+        if (moveBackward) direction.z += 1;
+        if (moveLeft) direction.x -= 1;
+        if (moveRight) direction.x += 1;
+        return direction.normalize();
+    }
 
     // var raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
@@ -180,6 +189,27 @@ function main() {
             return true; // collision detected
         }
 
+        const movementDirection = getMovementDirection();
+        const distance = 0.2;  // Bewegungsschritt (anpassbar)
+
+        // Raycaster setzen
+        raycaster.set(camera.position, movementDirection);
+        intersects = raycaster.intersectObjects(sceneMeshes, false);
+
+        // Kollisionserkennung
+        if (intersects.length > 0) {
+
+            for (let i = 0; i < intersects.length; i++) {
+                const intersect = intersects[i];
+
+                // Überprüfen, ob die Intersektion innerhalb der Spielershöhe ist
+                if (intersect.point.y < camera.position.y) {
+                    if (intersect.distance < distance) {
+                        return true; // Kollision erkannt auf der Spielershöhe
+                    }
+                }
+            }
+        }
         return false; // no collision
     }
     
@@ -194,12 +224,7 @@ function main() {
 
         time *= 0.001;
         const delta = ( time - prevTime ) / 1000;
-
-        // raycaster.ray.origin.copy( controls.getObject().position );
-        // raycaster.ray.origin.y -= 10;
-        // const intersections = raycaster.intersectObjects( objects, false );
-        // const onObject = intersections.length > 0;
-
+        
         velocity.x -= velocity.x * 1000.0 * delta;
         velocity.z -= velocity.z * 1000.0 * delta;
 
