@@ -7,7 +7,7 @@
 
 
 import { initRoom } from './room.js';
-import { loadFurniture } from './furniture.js';
+import { loadFurniture, boundingBoxes, searchItems } from './furniture.js';
 import { initStats } from './utils.js';
 import { PointerLockControls } from './PointerLockControls.js';
 
@@ -32,7 +32,7 @@ function main() {
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
     
-    camera.position.set(0.75, 1, 0.5);
+    camera.position.set(0.75, 0, -0.5);
     camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
 
     var controls = new PointerLockControls( camera, document.body );
@@ -44,23 +44,14 @@ function main() {
     loadFurniture(scene);
 
     const ambientColor = 0xffffff;
-    const ambientIntensity = 0.1;
+    const ambientIntensity = 0.01;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
 
-    // directional light - parallel sun rays
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
     directionalLight.castShadow = true;
     directionalLight.position.set(0, 60, 60);
-    // scene.add(directionalLight);
-
-    const color = 0xffffff;
-    const intensity = 1.5;
-    const distance = 0;
-    const light = new THREE.PointLight(color, intensity, distance);
-    light.castShadow = true;
-    light.position.set(-2.5, -2, 0.4,);
-    scene.add(light);
+    scene.add(directionalLight);
 
     // const spotLight = new THREE.SpotLight(0xffffff);
     // spotLight.position.set(-2.5, -2, 0.4);
@@ -157,12 +148,29 @@ function main() {
         }
     };
     
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('keyup', onKeyUp);
+    document.addEventListener('keydown', onKeyDown, false);
+    document.addEventListener('keyup', onKeyUp, false);
 
-    // TODO: Raycaster needs to be added for collision detection with objects
+    var boxes = boundingBoxes;
+    var searchItems = searchItems;
+    const raycaster = new THREE.Raycaster();
+    var intersects = [];
 
-    // var raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+    function getMovementDirection() {
+        const cameraDirection = new THREE.Vector3();
+        camera.getWorldDirection(cameraDirection); // Hol die Kamerarichtung
+        
+        const sideVector = new THREE.Vector3().crossVectors(camera.up, cameraDirection).normalize();
+        const direction = new THREE.Vector3();
+    
+        // normalize movement direction based on movement input (W, A, S, D)
+        if (moveForward) direction.add(cameraDirection);
+        if (moveBackward) direction.add(cameraDirection.clone().negate());
+        if (moveLeft) direction.add(sideVector); 
+        if (moveRight) direction.add(sideVector.clone().negate());
+        
+        return direction.normalize();
+    }
 
     // collision detection
     function checkCollision(position) {
@@ -177,13 +185,36 @@ function main() {
             position.z < -halfGridSize + margin ||
             position.z > halfGridSize - margin
         ) {
-            return true; // collision detected
+            return true; // collision with walls detected
         }
 
-        return false; // no collision
+        const movementDirection = getMovementDirection();
+
+        // set raycaster
+        raycaster.set(camera.position, movementDirection);
+        intersects = raycaster.intersectObjects(boxes, false);
+
+        console.log("Position: ", camera.position);
+        console.log("Direction: ", movementDirection);
+        console.log("Raycaster: ", raycaster);
+        console.log("Bounding Boxes: ", boxes);
+        console.log("Intersections: ", intersects);
+
+        // check for intersection with bounding boxes (furniture) 
+        if (intersects.length > 0) {
+
+            for (let i = 0; i < intersects.length; i++) {
+                const intersect = intersects[i];
+                if (intersect.distance <= 1) {
+                    console.log("collision!");
+                    return true; // collision with bounding boxes (furniture) detected
+                }
+            }
+        }
+        return false; // no collision at all
     }
     
-    // Render-Schleife
+    // render loop
     function draw(time){
         
         if (resizeGLToDisplaySize(renderer)) {
@@ -194,12 +225,7 @@ function main() {
 
         time *= 0.001;
         const delta = ( time - prevTime ) / 1000;
-
-        // raycaster.ray.origin.copy( controls.getObject().position );
-        // raycaster.ray.origin.y -= 10;
-        // const intersections = raycaster.intersectObjects( objects, false );
-        // const onObject = intersections.length > 0;
-
+        
         velocity.x -= velocity.x * 1000.0 * delta;
         velocity.z -= velocity.z * 1000.0 * delta;
 
