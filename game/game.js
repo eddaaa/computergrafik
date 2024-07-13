@@ -7,7 +7,7 @@
 
 
 import { initRoom } from './room.js';
-import { loadFurniture } from './furniture.js';
+import { loadFurniture, boundingBoxes, searchItems } from './furniture.js';
 import { initStats } from './utils.js';
 import { PointerLockControls } from './PointerLockControls.js';
 
@@ -35,10 +35,6 @@ function main() {
     camera.position.set(0.75, 0, -0.5);
     camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
 
-    const raycaster = new THREE.Raycaster();
-    const sceneMeshes = [];  // Array für alle Meshes in der Szene
-    let intersects = [];  // Array für die Intersektionen
-
     var controls = new PointerLockControls( camera, document.body );
 
     const scene = new THREE.Scene();
@@ -46,13 +42,6 @@ function main() {
 
     initRoom(scene);
     loadFurniture(scene);
-
-    // Fügen Sie Kollisionsobjekte hinzu, z.B. nach dem Laden eines Modells oder dem Erstellen von Geometrie
-    scene.children.forEach((child) => {
-        if (child instanceof THREE.Mesh) {
-            sceneMeshes.push(child);
-        }
-    });
 
     const ambientColor = 0xffffff;
     const ambientIntensity = 0.01;
@@ -162,16 +151,26 @@ function main() {
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);
 
+    var boxes = boundingBoxes;
+    var searchItems = searchItems;
+    const raycaster = new THREE.Raycaster();
+    var intersects = [];
+
     function getMovementDirection() {
+        const cameraDirection = new THREE.Vector3();
+        camera.getWorldDirection(cameraDirection); // Hol die Kamerarichtung
+        
+        const sideVector = new THREE.Vector3().crossVectors(camera.up, cameraDirection).normalize();
         const direction = new THREE.Vector3();
-        if (moveForward) direction.z -= 1;
-        if (moveBackward) direction.z += 1;
-        if (moveLeft) direction.x -= 1;
-        if (moveRight) direction.x += 1;
+    
+        // normalize movement direction based on movement input (W, A, S, D)
+        if (moveForward) direction.add(cameraDirection);
+        if (moveBackward) direction.add(cameraDirection.clone().negate());
+        if (moveLeft) direction.add(sideVector); 
+        if (moveRight) direction.add(sideVector.clone().negate());
+        
         return direction.normalize();
     }
-
-    // var raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
     // collision detection
     function checkCollision(position) {
@@ -186,34 +185,36 @@ function main() {
             position.z < -halfGridSize + margin ||
             position.z > halfGridSize - margin
         ) {
-            return true; // collision detected
+            return true; // collision with walls detected
         }
 
         const movementDirection = getMovementDirection();
-        const distance = 0.2;  // Bewegungsschritt (anpassbar)
 
-        // Raycaster setzen
+        // set raycaster
         raycaster.set(camera.position, movementDirection);
-        intersects = raycaster.intersectObjects(sceneMeshes, false);
+        intersects = raycaster.intersectObjects(boxes, false);
 
-        // Kollisionserkennung
+        console.log("Position: ", camera.position);
+        console.log("Direction: ", movementDirection);
+        console.log("Raycaster: ", raycaster);
+        console.log("Bounding Boxes: ", boxes);
+        console.log("Intersections: ", intersects);
+
+        // check for intersection with bounding boxes (furniture) 
         if (intersects.length > 0) {
 
             for (let i = 0; i < intersects.length; i++) {
                 const intersect = intersects[i];
-
-                // Überprüfen, ob die Intersektion innerhalb der Spielershöhe ist
-                if (intersect.point.y < camera.position.y) {
-                    if (intersect.distance < distance) {
-                        return true; // Kollision erkannt auf der Spielershöhe
-                    }
+                if (intersect.distance <= 1) {
+                    console.log("collision!");
+                    return true; // collision with bounding boxes (furniture) detected
                 }
             }
         }
-        return false; // no collision
+        return false; // no collision at all
     }
     
-    // Render-Schleife
+    // render loop
     function draw(time){
         
         if (resizeGLToDisplaySize(renderer)) {
