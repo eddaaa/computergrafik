@@ -14,7 +14,9 @@ export function loadFurniture(scene) {
 
         loadGLTF(scene, './objects/wooden_table/scene.gltf', -3, -4, 2, 0, 0, 0, 2.5, 2.5, 2.5, false),
         loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', -2.5, -2.7, 1, 0, 0, Math.PI / 2, 40, 40, 40, false),
-        loadGLTF(scene, './objects/candle_holder/scene.gltf', -3, -2.7, 0.4, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true)
+        loadGLTF(scene, './objects/candle_holder/scene.gltf', -3, -2.7, 0.4, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true),
+        loadGLTF(scene, './objects/painting_by_zdzislaw_beksinski_3/scene.gltf', -4.8, 0, 2, 0, 1.5, 0, 0.5, 0.5, 0.5, false),
+        loadGLTF(scene, './objects/vintage_metal_trunkchestsuitcase_1scaniverse/scene.gltf', 3, -6.5, -3, 0, 2, 0, 3.5, 3.5, 3.5, false)
 
     ]).then((boxes) => {
 
@@ -70,7 +72,7 @@ function loadGLTF(scene, path, posX, posY, posZ, rotX, rotY, rotZ, scaleX, scale
 
             scene.add(boundingBoxMesh);
             resolve(boundingBoxMesh);
-            
+
         }, undefined, reject);
     });
 }
