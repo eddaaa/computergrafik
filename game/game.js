@@ -20,6 +20,11 @@ let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 
+let boxes = boundingBoxes;
+const raycaster = new THREE.Raycaster();
+let intersects = [];
+let mouse = new THREE.Vector2();
+
 function main() {
     const canvas = document.querySelector("#c");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -76,6 +81,7 @@ function main() {
         }
         else {
 
+            removeByClick();
             controls.lock();
 
         }
@@ -85,6 +91,13 @@ function main() {
 
         instructions.style.display = 'none';
         blocker.style.display = 'none';
+
+    } );
+
+    document.addEventListener('mousemove',  function (event) {
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
     } );
 
@@ -151,11 +164,6 @@ function main() {
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);
 
-    var boxes = boundingBoxes;
-    var searchItems = searchItems;
-    const raycaster = new THREE.Raycaster();
-    var intersects = [];
-
     function getMovementDirection() {
         const cameraDirection = new THREE.Vector3();
         camera.getWorldDirection(cameraDirection); // Hol die Kamerarichtung
@@ -194,24 +202,33 @@ function main() {
         raycaster.set(camera.position, movementDirection);
         intersects = raycaster.intersectObjects(boxes, false);
 
-        console.log("Position: ", camera.position);
-        console.log("Direction: ", movementDirection);
-        console.log("Raycaster: ", raycaster);
-        console.log("Bounding Boxes: ", boxes);
-        console.log("Intersections: ", intersects);
-
         // check for intersection with bounding boxes (furniture) 
         if (intersects.length > 0) {
 
             for (let i = 0; i < intersects.length; i++) {
                 const intersect = intersects[i];
                 if (intersect.distance <= 1) {
-                    console.log("collision!");
                     return true; // collision with bounding boxes (furniture) detected
                 }
             }
         }
         return false; // no collision at all
+    }
+
+    // check if there was a click event pointed at a search item and remove search item from scene if true
+    function removeByClick() {
+
+        raycaster.setFromCamera(mouse, camera);
+        const searchIntersects = raycaster.intersectObjects(searchItems[0], false);
+
+        if (searchIntersects.length > 0) {
+            let intersectedObject = searchIntersects[0].object;
+            let index = searchItems[0].indexOf(intersectedObject);
+            scene.remove(searchItems[1][index]);
+            searchItems[1].splice(index, 1);
+            searchItems[0].splice(index, 1);
+            }
+
     }
     
     // render loop
