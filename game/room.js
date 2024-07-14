@@ -1,6 +1,6 @@
 export function initRoom(scene) {
     const textureLoader = new THREE.TextureLoader();
-    const concrete = textureLoader.load('./textures/concrete.jpg');
+    const concrete = textureLoader.load('./textures/flagstone.jpg');
     concrete.wrapS = THREE.RepeatWrapping;
     concrete.wrapT = THREE.RepeatWrapping;
     concrete.repeat.set(4, 4);
@@ -26,9 +26,11 @@ export function initRoom(scene) {
 
     const ceilingGeometry = new THREE.PlaneGeometry(10, 10);
     const ceilingMaterial = new THREE.MeshBasicMaterial({ color: 0x404040, side: THREE.DoubleSide });
-    const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+    const ceiling = new THREE.Mesh(ceilingGeometry, concrete);
     ceiling.position.set(0, 5, 0);
     ceiling.rotation.x = Math.PI / 2;
+
+    console.log("Ceiling: ", ceiling);
 
     scene.add(ceiling);
 
