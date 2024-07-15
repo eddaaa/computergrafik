@@ -25,12 +25,9 @@ const raycaster = new THREE.Raycaster();
 let intersects = [];
 let mouse = new THREE.Vector2();
 
-<<<<<<< Updated upstream
-=======
 let currentCount = 0;
 let gameFinished = false;
 
->>>>>>> Stashed changes
 function main() {
     const canvas = document.querySelector("#c");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -63,14 +60,17 @@ function main() {
     directionalLight.castShadow = true;
     directionalLight.position.set(0, 60, 60);
     scene.add(directionalLight);
-
-    // const spotLight = new THREE.SpotLight(0xffffff);
-    // spotLight.position.set(-2.5, -2, 0.4);
-    // spotLight.castShadow = true;
-    // scene.add(spotLight);
     
     const blocker = document.getElementById( 'blocker' );
     const instructions = document.getElementById( 'instructions' );
+    const counter = document.getElementById('counter');
+    const currentCountElement = document.getElementById('currentCount');
+    const endblocker = document.getElementById('endblocker');
+    const congratulationsElement = document.getElementById('congratulation');
+
+    counter.style.display = 'none';
+    endblocker.style.display = 'none';
+    congratulationsElement.style.display = 'none';
 
     instructions.addEventListener( 'click', function () {
 
@@ -97,6 +97,7 @@ function main() {
 
         instructions.style.display = 'none';
         blocker.style.display = 'none';
+        counter.style.display = 'block';
 
     } );
 
@@ -135,16 +136,12 @@ function main() {
 
             case 'Escape':
             case 'Esc':
-<<<<<<< Updated upstream
-                blocker.style.display = 'block';
-                instructions.style.display = '';
-=======
                 if (!gameFinished) {
+                    
                     blocker.style.display = 'block';
                     instructions.style.display = '';
                     counter.style.display = 'none';
                 }
->>>>>>> Stashed changes
                 break;
         }
     };
@@ -244,8 +241,6 @@ function main() {
             }
 
     }
-<<<<<<< Updated upstream
-=======
 
     // update the counter number visible in the corner based on the found objects
     function updateCounter() {
@@ -261,7 +256,6 @@ function main() {
             counter.classList.add('centered');
         }
     }
->>>>>>> Stashed changes
     
     // render loop
     function draw(time){

@@ -20,19 +20,15 @@
             height: 100vh;
             display: block;
         }
-<<<<<<< Updated upstream
-        #blocker {
-=======
 
         .blocker {
->>>>>>> Stashed changes
 				position: absolute;
 				width: 100%;
 				height: 100%;
 				background-color: rgba(0, 0, 0, 0.664);
 			}
 
-        #instructions {
+        .instructions {
             width: 100%;
             height: 100%;
 
@@ -45,8 +41,6 @@
             font-size: 14px;
             color: rgba(255, 255, 255, 0.664);
         }
-<<<<<<< Updated upstream
-=======
 
         #counter {
             position: absolute;
@@ -72,14 +66,13 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
->>>>>>> Stashed changes
     </style>
     <title>Game</title>
 </head>
 
 <body>
-    <div id="blocker">
-        <div id="instructions">
+    <div id="blocker" class="blocker">
+        <div id="instructions" class="instructions">
             <p> Find all the hidden letters. </p>
             <p style="font-size:36px">
                 Click to play
@@ -91,9 +84,6 @@
             </p>
         </div>
     </div>
-<<<<<<< Updated upstream
-    <canvas id="c"></canvas>
-=======
 
     <div id="endblocker" class="blocker">
         <div id="congratulation" class="instructions">
@@ -113,7 +103,6 @@
         <img id="counter-image" src="./images/envelope.png" alt="Envelope" />
     </div>
     
->>>>>>> Stashed changes
 </body>
 <script type="module" src="./game.js"></script>
 
