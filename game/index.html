@@ -41,6 +41,24 @@
             font-size: 14px;
             color: rgba(255, 255, 255, 0.664);
         }
+
+        #counter {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            text-align: center;
+        }
+
+        #counter-text {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        #counter-image {
+            width: 100px; 
+            height: auto;
+        }
     </style>
     <title>Game</title>
 </head>
@@ -59,6 +77,10 @@
         </div>
     </div>
     <canvas id="c"></canvas>
+    <div id="counter">
+        <div id="counter-text"><span id="currentCount">0</span> / <span id="maxCount">5</span></div>
+        <img id="counter-image" src="./images/envelope.png" alt="Envelope" />
+    </div>
 </body>
 <script type="module" src="./game.js"></script>
 
