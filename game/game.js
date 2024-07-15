@@ -25,6 +25,12 @@ const raycaster = new THREE.Raycaster();
 let intersects = [];
 let mouse = new THREE.Vector2();
 
+<<<<<<< Updated upstream
+=======
+let currentCount = 0;
+let gameFinished = false;
+
+>>>>>>> Stashed changes
 function main() {
     const canvas = document.querySelector("#c");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -129,8 +135,16 @@ function main() {
 
             case 'Escape':
             case 'Esc':
+<<<<<<< Updated upstream
                 blocker.style.display = 'block';
                 instructions.style.display = '';
+=======
+                if (!gameFinished) {
+                    blocker.style.display = 'block';
+                    instructions.style.display = '';
+                    counter.style.display = 'none';
+                }
+>>>>>>> Stashed changes
                 break;
         }
     };
@@ -230,6 +244,24 @@ function main() {
             }
 
     }
+<<<<<<< Updated upstream
+=======
+
+    // update the counter number visible in the corner based on the found objects
+    function updateCounter() {
+        currentCount += 1;
+        currentCountElement.textContent = currentCount;
+        const maxCountElement = document.getElementById( 'maxCount' );
+        const maxCount = parseInt(maxCountElement.textContent); 
+        if (currentCount === maxCount) {
+            console.log("Max Count: ", maxCount);
+            endblocker.style.display = 'block';
+            congratulationsElement.style.display = 'block';
+            gameFinished = true;
+            counter.classList.add('centered');
+        }
+    }
+>>>>>>> Stashed changes
     
     // render loop
     function draw(time){
