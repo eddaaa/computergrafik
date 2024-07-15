@@ -238,6 +238,7 @@ function main() {
             scene.remove(searchItems[1][index]);
             searchItems[1].splice(index, 1);
             searchItems[0].splice(index, 1);
+            updateCounter();
             }
 
     }
