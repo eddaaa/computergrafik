@@ -64,8 +64,11 @@ function main() {
     const instructions = document.getElementById( 'instructions' );
     const counter = document.getElementById( 'counter' );
     const currentCountElement = document.getElementById( 'currentCount' );
+    const endblocker = document.getElementById( 'endblocker' );
+    const congratulationsElement = document.getElementById( 'congratulation' );
 
     counter.style.display = 'none';
+    endblocker.style.display = 'none';
 
     instructions.addEventListener( 'click', function () {
 
@@ -236,9 +239,17 @@ function main() {
 
     }
 
+    // update the counter number visible in the corner based on the found objects
     function updateCounter() {
         currentCount += 1;
         currentCountElement.textContent = currentCount;
+        const maxCountElement = document.getElementById( 'maxCount' );
+        const maxCount = parseInt(maxCountElement.textContent); 
+        if (currentCount === maxCount) {
+            console.log("Max Count: ", maxCount);
+            endblocker.style.display = 'block';
+            congratulationsElement.style.display = 'block';
+        }
     }
     
     // render loop
