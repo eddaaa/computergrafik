@@ -25,6 +25,8 @@ const raycaster = new THREE.Raycaster();
 let intersects = [];
 let mouse = new THREE.Vector2();
 
+let currentCount = 0;
+
 function main() {
     const canvas = document.querySelector("#c");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -38,7 +40,7 @@ function main() {
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
     
     camera.position.set(0.75, 0, -0.5);
-    camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
+    camera.lookAt(new THREE.Vector3(0, 0, 0)); // camera looks into the center of the room
 
     var controls = new PointerLockControls( camera, document.body );
 
@@ -57,14 +59,16 @@ function main() {
     directionalLight.castShadow = true;
     directionalLight.position.set(0, 60, 60);
     scene.add(directionalLight);
-
-    // const spotLight = new THREE.SpotLight(0xffffff);
-    // spotLight.position.set(-2.5, -2, 0.4);
-    // spotLight.castShadow = true;
-    // scene.add(spotLight);
     
     const blocker = document.getElementById( 'blocker' );
     const instructions = document.getElementById( 'instructions' );
+    const counter = document.getElementById( 'counter' );
+    const currentCountElement = document.getElementById( 'currentCount' );
+    const endblocker = document.getElementById( 'endblocker' );
+    const congratulationsElement = document.getElementById( 'congratulation' );
+
+    counter.style.display = 'none';
+    endblocker.style.display = 'none';
 
     instructions.addEventListener( 'click', function () {
 
@@ -86,18 +90,19 @@ function main() {
 
         }
     });
+    
+    document.addEventListener('mousemove',  function (event) {
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    } );
 
     controls.addEventListener( 'lock', function () {
 
         instructions.style.display = 'none';
         blocker.style.display = 'none';
-
-    } );
-
-    document.addEventListener('mousemove',  function (event) {
-
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        counter.style.display = 'block';
 
     } );
 
@@ -131,6 +136,7 @@ function main() {
             case 'Esc':
                 blocker.style.display = 'block';
                 instructions.style.display = '';
+                counter.style.display = 'none';
                 break;
         }
     };
@@ -165,6 +171,7 @@ function main() {
     document.addEventListener('keyup', onKeyUp, false);
 
     function getMovementDirection() {
+
         const cameraDirection = new THREE.Vector3();
         camera.getWorldDirection(cameraDirection); // Hol die Kamerarichtung
         
@@ -227,8 +234,22 @@ function main() {
             scene.remove(searchItems[1][index]);
             searchItems[1].splice(index, 1);
             searchItems[0].splice(index, 1);
+            updateCounter();
             }
 
+    }
+
+    // update the counter number visible in the corner based on the found objects
+    function updateCounter() {
+        currentCount += 1;
+        currentCountElement.textContent = currentCount;
+        const maxCountElement = document.getElementById( 'maxCount' );
+        const maxCount = parseInt(maxCountElement.textContent); 
+        if (currentCount === maxCount) {
+            console.log("Max Count: ", maxCount);
+            endblocker.style.display = 'block';
+            congratulationsElement.style.display = 'block';
+        }
     }
     
     // render loop
