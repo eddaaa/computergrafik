@@ -191,7 +191,7 @@ function main() {
     function checkCollision(position) {
 
         var gridSizeX = 15;
-        var gridSizeZ = 25;// needs to be updated if the room size changes
+        var gridSizeZ = 35;// needs to be updated if the room size changes
         var halfGridSizeX = gridSizeX / 2;
         var halfGridSizeZ = gridSizeZ / 2;
         var margin = 0.1;
