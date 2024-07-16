@@ -39,6 +39,7 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/the_weasley_clock/scene.gltf', 7, -6.1, -5, 0, 270 * Math.PI / 180, 0, 2.5, 2.5, 2.5, false, false, true),
         loadGLTF(scene, './objects/dusty_old_bookshelf_free/scene.gltf', 7, -5, 1, 0, 90 * Math.PI / 180, 0, 3.5, 3.5, 3.5, false, false, true),
         loadGLTF(scene, './objects/stack_of_old_books/scene.gltf', 5.7, -4.5, 1.2, 0, 90 * Math.PI / 180, 0, 1, 1, 1, false, false, true),
+        loadGLTF(scene, './objects/ouija_board/scene.gltf', 4.6, -4.9, 1.2, 0, 79 * Math.PI / 180, 0, 1.5, 1.5, 1.5, false, false, true),
         loadGLTF(scene, './objects/12_old_books/scene.gltf', 6, -5, -1, 0, 90 * Math.PI / 180, 0, 2.5, 2.5, 2.5, false, false, true),
         loadGLTF(scene, './objects/candle/scene.gltf', -6.6, -0.75, 5.5, 0, 0, 0, 0.05, 0.05, 0.05, false, false, true),
         loadGLTF(scene, './objects/old_wooden_bookshelves/scene.gltf', -6.75, -4.9, 6, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true),
