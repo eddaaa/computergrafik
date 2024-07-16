@@ -1,0 +1,11 @@
+Model Information:
+* title:	12 Old Books
+* source:	https://sketchfab.com/3d-models/12-old-books-d845597f22d8454cb9775dc8018bc5a8
+* author:	Pedro Silva (https://sketchfab.com/pxdrosilva)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "12 Old Books" (https://sketchfab.com/3d-models/12-old-books-d845597f22d8454cb9775dc8018bc5a8) by Pedro Silva (https://sketchfab.com/pxdrosilva) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
