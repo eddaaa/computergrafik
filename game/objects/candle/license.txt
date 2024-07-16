@@ -1,0 +1,11 @@
+Model Information:
+* title:	Свечка
+* source:	https://sketchfab.com/3d-models/a0b7dbb41b9849938002b7f80aa9607f
+* author:	Mango (https://sketchfab.com/fake.don)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Свечка" (https://sketchfab.com/3d-models/a0b7dbb41b9849938002b7f80aa9607f) by Mango (https://sketchfab.com/fake.don) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

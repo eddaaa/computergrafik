@@ -53,11 +53,11 @@ function main() {
     loadFurniture(scene);
 
     const ambientColor = 0xffffff;
-    const ambientIntensity = 0.01;
+    const ambientIntensity = 0.001;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.25);
     directionalLight.castShadow = true;
     directionalLight.position.set(0, 60, 60);
     // scene.add(directionalLight);

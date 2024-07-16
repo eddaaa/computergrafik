@@ -20,8 +20,10 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', 4.9, -4.25, 11, 0, 110 * Math.PI / 180, Math.PI / 2, 45, 45, 45, false, true, true),
         loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', -6.8, -2.2, 6, 0, 0, Math.PI / 2, 45, 45, 45, false, true, true),
 
+        loadGLTF(scene, './objects/voodoo_doll/scene.gltf', 4, -2.6, -15.0, 0, 120 * Math.PI / 180, 0, 0.1, 0.1, 0.1, false, false, true),
         loadGLTF(scene, './objects/mirror_a/scene.gltf', -6.3, -5, -16, 0, 45 * Math.PI / 180, 0, 3, 3, 3, false, false, true),
         loadGLTF(scene, './objects/old_wooden_table/scene.gltf', -6, -2.5, -10, 0, 0, 0, 0.9, 0.9, 0.9, false, false, true),
+        // lädt nicht :( loadGLTF(scene, './objects/occult_books/scene.gltf', 0, 0, 0, 0, 0, 0, 150, 150, 150, false, false, true),
         loadGLTF(scene, './objects/candle_holder/scene.gltf', -6.3, -2.4, -11.6, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true, false, true),
         loadGLTF(scene, './objects/painting_by_zdzislaw_beksinski_3/scene.gltf', 7.38, 0.8, -14.4, 0, - 90 * Math.PI / 180, 0, 0.5, 0.5, 0.5, false, false, true),
         loadGLTF(scene, './objects/portrait_of_adam_mickiewicz/scene.gltf', -7.4, 0, -11, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true),
@@ -34,6 +36,7 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/chandelier/scene.gltf', 0, 3, 8, 0, 180 * Math.PI / 180, 0, 0.1, 0.1, 0.1, true, false, false),
         loadGLTF(scene, './objects/carpet/scene.gltf', 0, -4.95, -10, 0, Math.PI / 2, 0, 0.1, 0.1, 0.1, false, false, false),
         loadGLTF(scene, './objects/the_weasley_clock/scene.gltf', 7, -6.1, -5, 0, 270 * Math.PI / 180, 0, 2.5, 2.5, 2.5, false, false, true),
+        loadGLTF(scene, './objects/candle/scene.gltf', -6.6, -0.75, 5.5, 0, 0, 0, 0.05, 0.05, 0.05, false, false, true),
         loadGLTF(scene, './objects/old_wooden_bookshelves/scene.gltf', -6.75, -4.9, 6, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true)
 
     ]).then((results) => {
@@ -54,7 +57,7 @@ export function loadFurniture(scene) {
         searchItems[1].push(results[3].model);
         searchItems[0].push(results[4].boundingBox);
         searchItems[1].push(results[4].model);
-        
+
         maxCountElement = document.getElementById( 'maxCount' );
         maxCountElement.textContent = searchItems[0].length;
     });
@@ -117,6 +120,7 @@ function loadGLTF(scene, path, posX, posY, posZ, rotX, rotY, rotZ, scaleX, scale
                 } else {
                     resolve({ boundingBox: null, model: gltfScene.scene });
                 }
+
 
         }, undefined, reject);
     });
