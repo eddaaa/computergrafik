@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <script type="text/javascript" charset="UTF-8" src="../three/libs/three/three.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="../three/libs/three/loaders/OBJLoader.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="../three/libs/three/loaders/MTLLoader.js"></script>
     <script type="text/javascript" charset="UTF-8" src="../three/libs/three/loaders/GLTFLoader.js"></script>
     <script type="text/javascript" src="../three/libs/util/Stats.js"></script>
     <script type="text/javascript" src="../three/libs/util/dat.gui.js"></script>
@@ -16,17 +14,19 @@
             height: 100%;
             cursor: grab !important;
         }
+
         #c {
             width: 100vw;
             height: 100vh;
             display: block;
         }
+
         .blocker {
 				position: absolute;
 				width: 100%;
 				height: 100%;
 				background-color: rgba(0, 0, 0, 0.664);
-			}
+			  }
 
         .instructions {
             width: 100%;
@@ -59,9 +59,17 @@
             width: 100px; 
             height: auto;
         }
+
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
     <title>Game</title>
 </head>
+
 <body>
     <div id="blocker" class="blocker">
         <div id="instructions" class="instructions">
@@ -76,6 +84,7 @@
             </p>
         </div>
     </div>
+
     <div id="endblocker" class="blocker">
         <div id="congratulation" class="instructions">
             <p style="font-size:36px">
@@ -86,12 +95,16 @@
             </p>
         </div>
     </div>
+
     <canvas id="c"></canvas>
+
     <div id="counter">
         <div id="counter-text"><span id="currentCount">0</span> / <span id="maxCount">5</span></div>
         <img id="counter-image" src="./images/envelope.png" alt="Envelope" />
     </div>
+
 </body>
+  
 <script type="module" src="./game.js"></script>
 
 </html>

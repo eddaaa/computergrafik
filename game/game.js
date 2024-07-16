@@ -26,6 +26,8 @@ let intersects = [];
 let mouse = new THREE.Vector2();
 
 let currentCount = 0;
+let gameFinished = false;
+
 
 function main() {
     const canvas = document.querySelector("#c");
@@ -62,13 +64,15 @@ function main() {
     
     const blocker = document.getElementById( 'blocker' );
     const instructions = document.getElementById( 'instructions' );
-    const counter = document.getElementById( 'counter' );
-    const currentCountElement = document.getElementById( 'currentCount' );
-    const endblocker = document.getElementById( 'endblocker' );
-    const congratulationsElement = document.getElementById( 'congratulation' );
+    const counter = document.getElementById('counter');
+    const currentCountElement = document.getElementById('currentCount');
+    const endblocker = document.getElementById('endblocker');
+    const congratulationsElement = document.getElementById('congratulation');
 
     counter.style.display = 'none';
     endblocker.style.display = 'none';
+    congratulationsElement.style.display = 'none';
+
 
     instructions.addEventListener( 'click', function () {
 
@@ -93,8 +97,8 @@ function main() {
     
     document.addEventListener('mousemove',  function (event) {
 
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
     } );
 
@@ -134,10 +138,13 @@ function main() {
 
             case 'Escape':
             case 'Esc':
-                blocker.style.display = 'block';
-                instructions.style.display = '';
-                counter.style.display = 'none';
-                break;
+              if (!gameFinished) {
+
+                  blocker.style.display = 'block';
+                  instructions.style.display = '';
+                  counter.style.display = 'none';
+              }
+              break;
         }
     };
 
@@ -251,6 +258,9 @@ function main() {
             console.log("Max Count: ", maxCount);
             endblocker.style.display = 'block';
             congratulationsElement.style.display = 'block';
+            gameFinished = true;
+            counter.classList.add('centered');
+
         }
     }
     
