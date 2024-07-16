@@ -24,6 +24,7 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/mirror_a/scene.gltf', -6.3, -5, -16, 0, 45 * Math.PI / 180, 0, 3, 3, 3, false, false, true),
         loadGLTF(scene, './objects/old_wooden_table/scene.gltf', -6, -2.5, -10, 0, 0, 0, 0.9, 0.9, 0.9, false, false, true),
         // lädt nicht :( loadGLTF(scene, './objects/occult_books/scene.gltf', 0, 0, 0, 0, 0, 0, 150, 150, 150, false, false, true),
+        loadGLTF(scene, './objects/book_open/scene.gltf', -5.7, -2.4, -10.2, 0, 180 * Math.PI / 180, 0, 0.03, 0.03, 0.03, true, false, true),
         loadGLTF(scene, './objects/candle_holder/scene.gltf', -6.3, -2.4, -11.6, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true, false, true),
         loadGLTF(scene, './objects/painting_by_zdzislaw_beksinski_3/scene.gltf', 7.38, 0.8, -14.4, 0, - 90 * Math.PI / 180, 0, 0.5, 0.5, 0.5, false, false, true),
         loadGLTF(scene, './objects/portrait_of_adam_mickiewicz/scene.gltf', -7.4, 0, -11, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true),
