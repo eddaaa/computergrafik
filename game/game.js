@@ -28,6 +28,7 @@ let mouse = new THREE.Vector2();
 let currentCount = 0;
 let gameFinished = false;
 
+
 function main() {
     const canvas = document.querySelector("#c");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -41,7 +42,7 @@ function main() {
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
     
     camera.position.set(0.75, 0, -0.5);
-    camera.lookAt(new THREE.Vector3(0, 0, 0)); // Kamera schaut in Richtung des Ursprungs
+    camera.lookAt(new THREE.Vector3(0, 0, 0)); // camera looks into the center of the room
 
     var controls = new PointerLockControls( camera, document.body );
 
@@ -72,6 +73,7 @@ function main() {
     endblocker.style.display = 'none';
     congratulationsElement.style.display = 'none';
 
+
     instructions.addEventListener( 'click', function () {
 
         controls.lock();
@@ -92,19 +94,19 @@ function main() {
 
         }
     });
+    
+    document.addEventListener('mousemove',  function (event) {
+
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    } );
 
     controls.addEventListener( 'lock', function () {
 
         instructions.style.display = 'none';
         blocker.style.display = 'none';
         counter.style.display = 'block';
-
-    } );
-
-    document.addEventListener('mousemove',  function (event) {
-
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
     } );
 
@@ -136,13 +138,13 @@ function main() {
 
             case 'Escape':
             case 'Esc':
-                if (!gameFinished) {
-                    
-                    blocker.style.display = 'block';
-                    instructions.style.display = '';
-                    counter.style.display = 'none';
-                }
-                break;
+              if (!gameFinished) {
+
+                  blocker.style.display = 'block';
+                  instructions.style.display = '';
+                  counter.style.display = 'none';
+              }
+              break;
         }
     };
 
@@ -176,6 +178,7 @@ function main() {
     document.addEventListener('keyup', onKeyUp, false);
 
     function getMovementDirection() {
+
         const cameraDirection = new THREE.Vector3();
         camera.getWorldDirection(cameraDirection); // Hol die Kamerarichtung
         
@@ -194,15 +197,17 @@ function main() {
     // collision detection
     function checkCollision(position) {
 
-        var gridSize = 10; // needs to be updated if the room size changes
-        var halfGridSize = gridSize / 2;
+        var gridSizeX = 15;
+        var gridSizeZ = 35;// needs to be updated if the room size changes
+        var halfGridSizeX = gridSizeX / 2;
+        var halfGridSizeZ = gridSizeZ / 2;
         var margin = 0.1;
 
         if (
-            position.x < -halfGridSize + margin ||
-            position.x > halfGridSize - margin ||
-            position.z < -halfGridSize + margin ||
-            position.z > halfGridSize - margin
+            position.x < -halfGridSizeX + margin ||
+            position.x > halfGridSizeX - margin ||
+            position.z < -halfGridSizeZ + margin ||
+            position.z > halfGridSizeZ - margin
         ) {
             return true; // collision with walls detected
         }
@@ -255,6 +260,7 @@ function main() {
             congratulationsElement.style.display = 'block';
             gameFinished = true;
             counter.classList.add('centered');
+
         }
     }
     

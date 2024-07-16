@@ -6,6 +6,7 @@ let boundingBoxes = [];
 let searchItems = [[], []];
 let maxCountElement = 0;
 
+
 export { boundingBoxes, searchItems }
 
 export function loadFurniture(scene) {
@@ -27,7 +28,7 @@ export function loadFurniture(scene) {
         // save search items (envelopes) in 3D-array to enable click & remove event for them
         searchItems[0].push(results[1].boundingBox);
         searchItems[1].push(results[1].model);
-
+        
         maxCountElement = document.getElementById( 'maxCount' );
         maxCountElement.textContent = searchItems[0].length;
     });
