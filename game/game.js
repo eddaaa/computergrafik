@@ -60,7 +60,7 @@ function main() {
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
     directionalLight.castShadow = true;
     directionalLight.position.set(0, 60, 60);
-    scene.add(directionalLight);
+    // scene.add(directionalLight);
     
     const blocker = document.getElementById( 'blocker' );
     const instructions = document.getElementById( 'instructions' );
