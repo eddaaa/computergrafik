@@ -38,7 +38,8 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/carpet/scene.gltf', 0, -4.95, -10, 0, Math.PI / 2, 0, 0.1, 0.1, 0.1, false, false, false),
         loadGLTF(scene, './objects/the_weasley_clock/scene.gltf', 7, -6.1, -5, 0, 270 * Math.PI / 180, 0, 2.5, 2.5, 2.5, false, false, true),
         loadGLTF(scene, './objects/candle/scene.gltf', -6.6, -0.75, 5.5, 0, 0, 0, 0.05, 0.05, 0.05, false, false, true),
-        loadGLTF(scene, './objects/old_wooden_bookshelves/scene.gltf', -6.75, -4.9, 6, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true)
+        loadGLTF(scene, './objects/old_wooden_bookshelves/scene.gltf', -6.75, -4.9, 6, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true),
+        loadGLTF(scene, './objects/painting/scene.gltf', -7.38, 0.3, 0, 0, 90 * Math.PI / 180, 0, 0.03, 0.03, 0.03, false, false, true),
 
     ]).then((results) => {
         results.forEach(result => {
