@@ -190,15 +190,17 @@ function main() {
     // collision detection
     function checkCollision(position) {
 
-        var gridSize = 10; // needs to be updated if the room size changes
-        var halfGridSize = gridSize / 2;
+        var gridSizeX = 15;
+        var gridSizeZ = 25;// needs to be updated if the room size changes
+        var halfGridSizeX = gridSizeX / 2;
+        var halfGridSizeZ = gridSizeZ / 2;
         var margin = 0.1;
 
         if (
-            position.x < -halfGridSize + margin ||
-            position.x > halfGridSize - margin ||
-            position.z < -halfGridSize + margin ||
-            position.z > halfGridSize - margin
+            position.x < -halfGridSizeX + margin ||
+            position.x > halfGridSizeX - margin ||
+            position.z < -halfGridSizeZ + margin ||
+            position.z > halfGridSizeZ - margin
         ) {
             return true; // collision with walls detected
         }
