@@ -1,0 +1,11 @@
+Model Information:
+* title:	The Weasley Clock
+* source:	https://sketchfab.com/3d-models/the-weasley-clock-0707830f9fa74639a2f75bc67d730829
+* author:	stanislau.see (https://sketchfab.com/stanislau.see)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "The Weasley Clock" (https://sketchfab.com/3d-models/the-weasley-clock-0707830f9fa74639a2f75bc67d730829) by stanislau.see (https://sketchfab.com/stanislau.see) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
