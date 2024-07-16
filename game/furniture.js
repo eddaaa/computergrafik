@@ -18,6 +18,8 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', -6, -2.4, -12.8, 0, Math.PI / 4, Math.PI / 2, 45, 45, 45, false, true, true),
         loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', 1, -5, -14.2, 0, - Math.PI / 4, Math.PI / 2, 45, 45, 45, false, true, true),
         loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', 4.9, -4.25, 11, 0, 110 * Math.PI / 180, Math.PI / 2, 45, 45, 45, false, true, true),
+        loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', -6.8, -2.2, 6, 0, 0, Math.PI / 2, 45, 45, 45, false, true, true),
+
         loadGLTF(scene, './objects/mirror_a/scene.gltf', -6.3, -5, -16, 0, 45 * Math.PI / 180, 0, 3, 3, 3, false, false, true),
         loadGLTF(scene, './objects/old_wooden_table/scene.gltf', -6, -2.5, -10, 0, 0, 0, 0.9, 0.9, 0.9, false, false, true),
         loadGLTF(scene, './objects/candle_holder/scene.gltf', -6.3, -2.4, -11.6, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true, false, true),
@@ -29,9 +31,10 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/viking_axe/scene.gltf', -4.5, -1.75, -9.5, 70 * Math.PI / 180, 35 * Math.PI / 180, 30 * Math.PI / 180, 0.05, 0.05, 0.05, false, false),
         loadGLTF(scene, './objects/armchair/scene.gltf', 4.8, -5, -15.3, 0, -Math.PI / 4, 0, 4, 4, 4, false, false, true),
         loadGLTF(scene, './objects/double_barrel_stand/scene.gltf', 6, -5, 10, 0, 180 * Math.PI / 180, 0, 0.5, 0.5, 0.5, false, false, true),
-        loadGLTF(scene, './objects/chandelier/scene.gltf', 2, 3, 8, 0, 180 * Math.PI / 180, 0, 0.1, 0.1, 0.1, true, false, false),
+        loadGLTF(scene, './objects/chandelier/scene.gltf', 0, 3, 8, 0, 180 * Math.PI / 180, 0, 0.1, 0.1, 0.1, true, false, false),
         loadGLTF(scene, './objects/carpet/scene.gltf', 0, -4.95, -10, 0, Math.PI / 2, 0, 0.1, 0.1, 0.1, false, false, false),
-        loadGLTF(scene, './objects/the_weasley_clock/scene.gltf', 7, -6.1, -5, 0, 270 * Math.PI / 180, 0, 2.5, 2.5, 2.5, false, false, true)
+        loadGLTF(scene, './objects/the_weasley_clock/scene.gltf', 7, -6.1, -5, 0, 270 * Math.PI / 180, 0, 2.5, 2.5, 2.5, false, false, true),
+        loadGLTF(scene, './objects/old_wooden_bookshelves/scene.gltf', -6.75, -4.9, 6, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true)
 
     ]).then((results) => {
         results.forEach(result => {
@@ -49,6 +52,8 @@ export function loadFurniture(scene) {
         searchItems[1].push(results[2].model);
         searchItems[0].push(results[3].boundingBox);
         searchItems[1].push(results[3].model);
+        searchItems[0].push(results[4].boundingBox);
+        searchItems[1].push(results[4].model);
         
         maxCountElement = document.getElementById( 'maxCount' );
         maxCountElement.textContent = searchItems[0].length;
@@ -67,7 +72,7 @@ function loadGLTF(scene, path, posX, posY, posZ, rotX, rotY, rotZ, scaleX, scale
 
             if (light) {
                 const color = 0xffffff;
-                const intensity = 3;
+                const intensity = 2;
                 const distance = 0;
                 const light = new THREE.PointLight(color, intensity, distance);
                 light.castShadow = true;

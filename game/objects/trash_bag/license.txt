@@ -1,0 +1,11 @@
+Model Information:
+* title:	Trash bag
+* source:	https://sketchfab.com/3d-models/trash-bag-1440609546e54868b19131d4ab74df0c
+* author:	Mishazawa (https://sketchfab.com/macintoshkrug)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Trash bag" (https://sketchfab.com/3d-models/trash-bag-1440609546e54868b19131d4ab74df0c) by Mishazawa (https://sketchfab.com/macintoshkrug) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
