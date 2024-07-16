@@ -14,11 +14,18 @@ export function loadFurniture(scene) {
     // load furniture and create bounding boxes
     return Promise.all([
 
-        loadGLTF(scene, './objects/wooden_table/scene.gltf', -3, -4, 2, 0, 0, 0, 2.5, 2.5, 2.5, false, false),
-        loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', -2.7, -2.7, -0.8, 0, Math.PI / 4, Math.PI / 2, 40, 40, 40, false, true),
-        loadGLTF(scene, './objects/candle_holder/scene.gltf', -3, -2.7, 0.4, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true, false),
-        loadGLTF(scene, './objects/painting_by_zdzislaw_beksinski_3/scene.gltf', -4.8, 0, 2, 0, 1.5, 0, 0.5, 0.5, 0.5, false, false),
-        loadGLTF(scene, './objects/vintage_metal_trunkchestsuitcase_1scaniverse/scene.gltf', 3, -6.5, -3, 0, 2, 0, 3.5, 3.5, 3.5, false, false)
+        loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', 7.42, 2.2, -14.2, 20 * Math.PI / 180, 0, 180 * Math.PI / 180, 40, 40, 40, false, true),
+        loadGLTF(scene, './objects/pick_up_pack_collectibles_envelope/scene.gltf', -6, -2.4, -12.8, 0, Math.PI / 4, Math.PI / 2, 40, 40, 40, false, true),
+        loadGLTF(scene, './objects/old_wooden_table/scene.gltf', -6, -2.5, -10, 0, 0, 0, 0.9, 0.9, 0.9, false, false),
+        loadGLTF(scene, './objects/candle_holder/scene.gltf', -6.3, -2.4, -11.6, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true, false),
+        loadGLTF(scene, './objects/painting_by_zdzislaw_beksinski_3/scene.gltf', 7.38, 0.8, -14.4, 0, - 90 * Math.PI / 180, 0, 0.5, 0.5, 0.5, false, false),
+        loadGLTF(scene, './objects/portrait_of_adam_mickiewicz/scene.gltf', -7.4, 0, -11, 0, 0, 0, 1.5, 1.5, 1.5, false, false),
+        loadGLTF(scene, './objects/death_crowning_innocence_1896/scene.gltf', -7.4, 0, -9, 0, 0, 0, 1.5, 1.5, 1.5, false, false),
+        // loadGLTF(scene, './objects/vintage_metal_trunkchestsuitcase_1scaniverse/scene.gltf', 3, -6.5, -3, 0, 2, 0, 3.5, 3.5, 3.5, false, false),
+        loadGLTF(scene, './objects/wooden_door/scene.gltf', -3, -1.4, 17.2, 0, Math.PI / 2, 0, 4, 4, 4, false, false),
+        // loadGLTF(scene, './objects/viking_axe/scene.gltf', -3, -2.5, 14, 60 * Math.PI / 180, Math.PI / 2, 0, 0.08, 0.08, 0.08, false, false),
+        loadGLTF(scene, './objects/armchair/scene.gltf', 4.8, -5, -15.3, 0, -Math.PI / 4, 0, 4, 4, 4, false, false),
+        loadGLTF(scene, './objects/double_barrel_stand/scene.gltf', 6, -5, 10, 0, 180 * Math.PI / 180, 0, 0.5, 0.5, 0.5, false, false)
 
     ]).then((results) => {
         results.forEach(result => {
@@ -26,6 +33,8 @@ export function loadFurniture(scene) {
         });
 
         // save search items (envelopes) in 3D-array to enable click & remove event for them
+        searchItems[0].push(results[0].boundingBox);
+        searchItems[1].push(results[0].model);
         searchItems[0].push(results[1].boundingBox);
         searchItems[1].push(results[1].model);
         

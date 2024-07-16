@@ -1,0 +1,11 @@
+Model Information:
+* title:	carpet
+* source:	https://sketchfab.com/3d-models/carpet-e261ea97a64b48719c4d40009efd9ee1
+* author:	ahmagh2e (https://sketchfab.com/ahmagh2e)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "carpet" (https://sketchfab.com/3d-models/carpet-e261ea97a64b48719c4d40009efd9ee1) by ahmagh2e (https://sketchfab.com/ahmagh2e) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

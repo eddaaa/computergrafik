@@ -40,8 +40,8 @@ function main() {
     const nearPlane = 0.1;
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(angleOfView, aspectRatio, nearPlane, farPlane);
-    
-    camera.position.set(0.75, 0, -0.5);
+ 
+    camera.position.set(-3, 0, 16);
     camera.lookAt(new THREE.Vector3(0, 0, 0)); // camera looks into the center of the room
 
     var controls = new PointerLockControls( camera, document.body );
