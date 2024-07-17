@@ -1,0 +1,11 @@
+Model Information:
+* title:	Ouija Board
+* source:	https://sketchfab.com/3d-models/ouija-board-1b9fbaef499a452da81d0d268b03afba
+* author:	Ludwig Battran (https://sketchfab.com/Ludwig_Battran)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Ouija Board" (https://sketchfab.com/3d-models/ouija-board-1b9fbaef499a452da81d0d268b03afba) by Ludwig Battran (https://sketchfab.com/Ludwig_Battran) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
