@@ -26,8 +26,8 @@ export function initRoom(scene) {
     scene.add(wall4);
 
     const ceilingGeometry = new THREE.PlaneGeometry(15, 35);
-    const ceilingMaterial = new THREE.MeshBasicMaterial({ color: 0x404040, side: THREE.DoubleSide });
-    const ceiling = new THREE.Mesh(ceilingGeometry, concrete);
+    const ceilingMaterial = new THREE.MeshBasicMaterial({ map: concrete, side: THREE.DoubleSide });
+    const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
     ceiling.position.set(0, 5, 0);
     ceiling.rotation.x = Math.PI / 2;
 
