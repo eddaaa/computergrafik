@@ -23,6 +23,7 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/voodoo_doll/scene.gltf', 4, -2.6, -15.0, 0, 120 * Math.PI / 180, 0, 0.1, 0.1, 0.1, false, false, true),
         loadGLTF(scene, './objects/mirror_a/scene.gltf', -6.3, -5, -16, 0, 45 * Math.PI / 180, 0, 3, 3, 3, false, false, true),
         loadGLTF(scene, './objects/old_wooden_table/scene.gltf', -6, -2.5, -10, 0, 0, 0, 0.9, 0.9, 0.9, false, false, true),
+        loadGLTF(scene, './objects/trash_bag/scene.gltf', -6.5, -5, -4.25, 0, 0, 0, 0.9, 0.9, 0.9, false, false, true),
         // lädt nicht :( loadGLTF(scene, './objects/occult_books/scene.gltf', 0, 0, 0, 0, 0, 0, 150, 150, 150, false, false, true),
         loadGLTF(scene, './objects/book_open/scene.gltf', -5.7, -2.4, -10.2, 0, 180 * Math.PI / 180, 0, 0.03, 0.03, 0.03, true, false, true),
         loadGLTF(scene, './objects/candle_holder/scene.gltf', -6.3, -2.4, -11.6, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true, false, true),
