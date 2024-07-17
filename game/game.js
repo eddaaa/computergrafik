@@ -8,7 +8,6 @@
 
 import { initRoom } from './room.js';
 import { loadFurniture, boundingBoxes, searchItems } from './furniture.js';
-import { initStats } from './utils.js';
 import { PointerLockControls } from './PointerLockControls.js';
 
 let moveForward = false;
@@ -33,8 +32,6 @@ function main() {
     const canvas = document.querySelector("#c");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 
-    const stats = initStats();
-
     const angleOfView = 55;
     const aspectRatio = canvas.clientWidth / canvas.clientHeight;
     const nearPlane = 0.1;
@@ -56,11 +53,6 @@ function main() {
     const ambientIntensity = 0.001;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.25);
-    directionalLight.castShadow = true;
-    directionalLight.position.set(0, 60, 60);
-    // scene.add(directionalLight);
     
     const blocker = document.getElementById( 'blocker' );
     const instructions = document.getElementById( 'instructions' );
@@ -305,7 +297,6 @@ function main() {
             }  
         }   
 
-        stats.update();
         prevTime = time;
         renderer.render(scene, camera);
         requestAnimationFrame(draw);

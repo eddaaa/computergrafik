@@ -24,13 +24,11 @@ export function loadFurniture(scene) {
         loadGLTF(scene, './objects/mirror_a/scene.gltf', -6.3, -5, -16, 0, 45 * Math.PI / 180, 0, 3, 3, 3, false, false, true),
         loadGLTF(scene, './objects/old_wooden_table/scene.gltf', -6, -2.5, -10, 0, 0, 0, 0.9, 0.9, 0.9, false, false, true),
         loadGLTF(scene, './objects/trash_bag/scene.gltf', -6.5, -5, -4.25, 0, 0, 0, 0.9, 0.9, 0.9, false, false, true),
-        // lädt nicht :( loadGLTF(scene, './objects/occult_books/scene.gltf', 0, 0, 0, 0, 0, 0, 150, 150, 150, false, false, true),
         loadGLTF(scene, './objects/book_open/scene.gltf', -5.7, -2.4, -10.2, 0, 180 * Math.PI / 180, 0, 0.03, 0.03, 0.03, true, false, true),
         loadGLTF(scene, './objects/candle_holder/scene.gltf', -6.3, -2.4, -11.6, 0, Math.PI / 2, 0, 0.004, 0.004, 0.004, true, false, true),
         loadGLTF(scene, './objects/painting_by_zdzislaw_beksinski_3/scene.gltf', 7.38, 0.8, -14.4, 0, - 90 * Math.PI / 180, 0, 0.5, 0.5, 0.5, false, false, true),
         loadGLTF(scene, './objects/portrait_of_adam_mickiewicz/scene.gltf', -7.4, 0, -11, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true),
         loadGLTF(scene, './objects/death_crowning_innocence_1896/scene.gltf', -7.4, 0, -9, 0, 0, 0, 1.5, 1.5, 1.5, false, false, true),
-        // loadGLTF(scene, './objects/vintage_metal_trunkchestsuitcase_1scaniverse/scene.gltf', 3, -6.5, -3, 0, 2, 0, 3.5, 3.5, 3.5, false, false),
         loadGLTF(scene, './objects/wooden_door/scene.gltf', -3, -1.4, 17.2, 0, Math.PI / 2, 0, 4, 4, 4, false, false, true),
         loadGLTF(scene, './objects/viking_axe/scene.gltf', -4.5, -1.75, -9.5, 70 * Math.PI / 180, 35 * Math.PI / 180, 30 * Math.PI / 180, 0.05, 0.05, 0.05, false, false),
         loadGLTF(scene, './objects/armchair/scene.gltf', 4.8, -5, -15.3, 0, -Math.PI / 4, 0, 4, 4, 4, false, false, true),
@@ -66,7 +64,8 @@ export function loadFurniture(scene) {
         searchItems[1].push(results[3].model);
         searchItems[0].push(results[4].boundingBox);
         searchItems[1].push(results[4].model);
-
+        
+        // save the maximum number of search items
         maxCountElement = document.getElementById( 'maxCount' );
         maxCountElement.textContent = searchItems[0].length;
     });
@@ -82,6 +81,7 @@ function loadGLTF(scene, path, posX, posY, posZ, rotX, rotY, rotZ, scaleX, scale
             gltfScene.scene.rotation.set(rotX, rotY, rotZ);
             gltfScene.scene.scale.set(scaleX, scaleY, scaleZ);
 
+            // if object is light source at the same time
             if (light) {
                 const color = 0xffffff;
                 const intensity = 2;
